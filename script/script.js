@@ -3,6 +3,7 @@ const startBtn = document.querySelector(".startBtn");
 const preGameBg = document.querySelector(".preGameBlock");
 const gameBg = document.querySelector(".mainBlock");
 const scoreBg = document.querySelector(".scoreSection");
+const timeBg = document.querySelector(".timeBlock");
 
 var preGameOpenAnim = {
   animation: "preGameOpenAnim .5s ease-out 0.6s forwards",
@@ -28,9 +29,17 @@ var scoreCloseAnim = {
   animation: "scoreCloseAnim .5s ease-out forwards",
 };
 
+var timeBlockOpenAnim = {
+  animation: "timeBlockOpenAnim .5s ease-out 0.6s forwards",
+};
+
 startBtn.onclick = () => {
+  if (nextClickCount == 0) {
+    setInterval(timer1, 1000);
+  }
   Object.assign(preGameBg.style, preGameCloseAnim);
   Object.assign(gameBg.style, gameOpenAnim);
+  Object.assign(timeBg.style, timeBlockOpenAnim);
 };
 
 var questionOutput = document.querySelector(".question");
@@ -65,6 +74,8 @@ nextBtn.onclick = () => {
   if (nextClickCount < 4) {
     nextClickCount++;
     previousClickCount--;
+    time = 20;
+    setInterval(timer2, 1000);
     answerStore();
     Object.assign(trueBtn.style, optionNormalStyle);
     Object.assign(falseBtn.style, optionNormalStyle);
@@ -181,4 +192,27 @@ function answerViewer() {
       }
     }
   }
+}
+
+// Timer section
+var timeOutput = document.querySelector(".timeOutput");
+var time = 20;
+
+function timer1() {
+  if (nextClickCount == 1) {
+    return;
+  }
+  var seconds = time % 60;
+  seconds < 10
+    ? (timeOutput.innerHTML = `0${seconds}`)
+    : (timeOutput.innerHTML = `${seconds}`);
+  time > 0 ? time-- : (time = 0);
+}
+
+function timer2() {
+  var seconds = time % 60;
+  seconds < 10
+    ? (timeOutput.innerHTML = `0${seconds}`)
+    : (timeOutput.innerHTML = `${seconds}`);
+  time > 0 ? time-- : (time = 0);
 }
